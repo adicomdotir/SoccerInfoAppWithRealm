@@ -6,9 +6,11 @@ import android.support.annotation.NonNull;
 import android.support.v7.app.AppCompatActivity;
 import android.util.Log;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import java.util.UUID;
 
 import io.realm.Realm;
+import io.realm.RealmConfiguration;
 import ir.adicom.app.soccerapp.R;
 import ir.adicom.app.soccerapp.models.Continent;
 import ir.adicom.app.soccerapp.presenters.IPresenter;
@@ -25,33 +27,41 @@ public class MainActivity extends AppCompatActivity implements IView {
         setContentView(R.layout.activity_main);
 
         //
-        Realm.init(this);
-        Realm realm = Realm.getDefaultInstance();
+        // Realm.init(this);
+        final RealmConfiguration configuration = new RealmConfiguration.Builder()
+                .deleteRealmIfMigrationNeeded().build();
+//        Realm.setDefaultConfiguration(configuration);
+        Realm realm = Realm.getInstance(configuration);
 
         showStatus("Perform basic Create/Read/Update/Delete (CRUD) operations...");
 
         // All writes must be wrapped in a transaction to facilitate safe multi threading
-        realm.executeTransaction(new Realm.Transaction() {
-            @Override
-            public void execute(Realm realm) {
-                // Add a continent
-                Continent continent = realm.createObject(Continent.class);
-                continent.setId(1);
-                continent.setName("Asia");
-
-            }
-        });
+//        realm.executeTransaction(new Realm.Transaction() {
+//            @Override
+//            public void execute(Realm realm) {
+//                // Add a continent
+//                Continent continent = realm.createObject(Continent.class);
+//                continent.setId(20);
+//                continent.setName("Asia");
+//
+//            }
+//        });
+//
+        Continent c01 = new Continent(55, "Eroupe");
+        realm.beginTransaction();
+        realm.copyToRealm(c01);
+        realm.commitTransaction();
 
         // Find the first continent (no query conditions) and read a field
         final Continent continent = realm.where(Continent.class).findFirst();
-        showStatus(continent.getName());
+        showStatus(continent.toString());
 
         // Update continent in a transaction
         realm.executeTransaction(new Realm.Transaction() {
             @Override
             public void execute(Realm realm) {
                 continent.setName("Africa");
-                showStatus(continent.getName());
+                showStatus(continent.toString());
             }
         });
 

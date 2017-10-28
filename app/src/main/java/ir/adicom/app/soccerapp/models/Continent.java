@@ -1,6 +1,7 @@
 package ir.adicom.app.soccerapp.models;
 
 import io.realm.RealmObject;
+import io.realm.annotations.PrimaryKey;
 
 /**
  *
@@ -9,8 +10,16 @@ import io.realm.RealmObject;
 
 public class Continent extends RealmObject {
 
+    @PrimaryKey
     private int id;
     private String name;
+
+    public Continent() {}
+
+    public Continent(int id, String name) {
+        this.id = id;
+        this.name = name;
+    }
 
     public int getId() {
         return id;

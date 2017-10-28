@@ -3,13 +3,6 @@ package ir.adicom.app.soccerapp.presenters;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import com.j256.ormlite.dao.RuntimeExceptionDao;
-import com.j256.ormlite.stmt.QueryBuilder;
-
-import java.sql.SQLException;
-import java.util.List;
-
-import ir.adicom.app.soccerapp.models.Continent;
 import ir.adicom.app.soccerapp.views.IView;
 
 /**
@@ -24,6 +17,7 @@ public class Presenter  implements IPresenter {
 
     public Presenter(@NonNull final IView view, @NonNull Context context) {
         mView = view;
+        setGreeting("Hello Greeting");
     }
 
     @Override
